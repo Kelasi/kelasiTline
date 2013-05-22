@@ -19,11 +19,23 @@ $(function() {
 		var value = e.charCode;
 		var pDetect = 0;
 		if ($this.val().length < 1) {
-			console.log('detected')
 			if (value >= 0x600 && value <= 0x6ff)
 				$this.css("direction", "rtl")
 			else
 				$this.css("direction", "ltr")
 		}
 	});
+});
+
+$(function() {
+	$("#submitButton").mouseover(function(e){
+		var $this = $(this);
+		$this.animate({backgroundColor: "#2e75ce"}, 100 );
+		$this.css("color", "#eee");
+	})
+	$("#submitButton").mouseout(function(e){
+		var $this = $(this);
+		$this.css("background-color", "#eee");
+		$this.css("color", "#2e75ce");
+	})
 });

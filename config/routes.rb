@@ -1,6 +1,7 @@
 KelasiTline::Application.routes.draw do
   get "messages/index"
   post "messages/create"
+  post "messages/reply"
 
   root to: "messages#index"
 

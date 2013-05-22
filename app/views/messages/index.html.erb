@@ -1,9 +1,9 @@
-<div id="tLine" class="tLine fontFamily">
+	<div id="tLine" class="tLine fontFamily">
 	<div class="vLine">
 		<%= image_tag( 'big-dot.png', :alt => "Beginning", :class => 'bigDot') %>
 	</div>
-	<form id="submit_form" method="post" action="/messages/create" class="formPos">
-		<select class="select" id="user_params[user_id]" name="user_params[user_id]">
+	<form id="messageForm" method="post" action="/messages/create" class="formPos">
+		<select class="select fontFamily" id="user_params[user_id]" name="user_params[user_id]">
 			<option value="1">Saeed</option>
 			<option value="2">Amir</option>
 			<option value="3">Sadegh</option>
@@ -11,23 +11,57 @@
 			<option value="5">Pouria</option>
 		</select><br />
 		<input id="user_params[msg]" type="text" name="user_params[msg]" class="roundLeft textBox" /> 
-		<input class="roundRight button fontFamily" type="submit" value="Submit Query" />
+		<input id="submitButton" class="roundRight button fontFamily" type="submit" value="Submit Query" onmouseover="javascript: mouseoverButtonOver();" onmouseout="javascript: mouseoverButtonOut();"/>
 	</form>
 	<div class="blankBox"></div>
 	<div id="messagesBox" class="messagesBox bgY">
-		<div class="messageBoxBg op-60"></div>
 		<ul>	
 			<% @messages.reverse.each do |message| %> 
-			 	<div class="dot"></div>
-				<% a = [] %>
-				<% a = message["created_at"].to_s.split(/[\s|\:|\ |-]/) %>
-			 	<% pic_address = @our_names[ message["user_id"]] + ".jpg" %>
-			 	<%= image_tag(pic_address, :alt => "Profile Picture", :class => 'profilePic round') %>
-			 	<li class="shiftRight">
-			  		<p class="msgAuthor"><%= @our_names[ message["user_id"]] + " at " + a[3] + ":" + a[4] %></p> 
-			  		<p> <%= message["msg"] %> </p>
-				</li>
+				<div class="msgblock">
+				 	<div class="dot"></div>
+					<% a = [] %>
+					<% a = message["created_at"].to_s.split(/[\s|\:|\ |-]/) %>
+				 	<% pic_address = @our_names[ message["user_id"]] + ".jpg" %>
+				 	<%= image_tag(pic_address, :alt => "Profile Picture", :class => 'profilePic round') %>
+				 	<li class="shiftRight">
+				  		<p class="msgAuthor"><%= @our_names[ message["user_id"]] + " at " + a[3] + ":" + a[4] %></p> 
+				  		<div class="msgContainer"> <%= message["msg"] %> </div>
+					</li>
+				</div>
+
+				<% reply=Reply.find(:all, :conditions => ["msg_id = ?", message['id']]) %>
+				<% reply.each do |reply| %>
+					<li class="replyBox">
+						<% pic_address = @our_names[ reply["user_id"]] + ".jpg" %>
+						<%= image_tag(pic_address, :alt => "Profile Picture", :width => '30px', :height => '30px', :class => 'replyPic round') %>
+						<div class="repTimeBox">
+							<% rep = [] %>
+							<% repTime = reply["created_at"].to_s.split(/[\s|\:|\ |-]/) %>
+							<%= @our_names[reply["user_id"]] + " at " + repTime[3] + ":" + repTime[4] %>
+						</div>
+						<div class="replyMsgBox">
+							<%= reply["reply"] %>
+						</div>
+					</li>
+				<% end %>
+				<div class="commentBox op-50">
+					<form id="replyForm" method="post" action="/messages/reply">
+						<select class="repSelect roundLeft fontFamily" id="replier_params[user_id]" name="replier_params[user_id]" name="replier_params[user_id]">
+							<option value="1">Saeed</option>
+							<option value="2">Amir</option>
+							<option value="3">Sadegh</option>
+							<option value="4">Hamed</option>
+							<option value="5">Pouria</option>
+						</select>				
+						<input id="replier_params[reply]" name="replier_params[reply]" type="text" name="replier_params[reply]" class="repTextBox" /> 
+						<input id="repSubmitButton" class="roundRight repButton fontFamily" type="submit" value="Reply"/><br />
+						<input id="replier_params[msg_id]" name="replier_params[msg_id]" type="text" class="invisible" value="<%= message['id'] %>" >
+						<input id="replier_params[dir]" name="replier_params[dir]" type="text" class="invisible" value="0">
+						<input id="replier_params[gold]" name="replier_params[gold]" type="text" class="invisible" value="0">
+					</form>
+				</div>
 			<% end %>
+
 		</ul>
 	</div>
 	<div class="bgY footerVline"></div>

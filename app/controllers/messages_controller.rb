@@ -11,4 +11,10 @@ class MessagesController < ApplicationController
     # render json: @message
     redirect_to root_path
   end
+
+  def reply
+    @reply = Reply.new params[:replier_params]
+    @reply.save
+    redirect_to root_path
+  end
 end
