@@ -1,9 +1,0 @@
- ✔ Fix highlight effect @done (13-05-29 08:57)
- ☐ Create User model
- ☐ Fix Post model relationship
- ☐ Make it use gravatar
- ☐ Port to Haml
- ☐ Port to coffeescript
- ☐ Use RGBa background
- ☐ Make it RESTful
- ☐ Use js MVC frameworks

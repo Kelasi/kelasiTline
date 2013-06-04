@@ -14,9 +14,12 @@
 /log/*.log
 /tmp
 
+bin/
+
 .powenv
 .rvmrc
 
 .ruby-gemset
 .ruby-version
 
+TODO
