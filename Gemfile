@@ -21,6 +21,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'spork-rails'
+  gem 'capybara'
+  gem 'jazz_hands'
 end
 
 
@@ -54,5 +56,5 @@ gem 'unicorn'
 # To use debugger
 # gem 'debugger'
 
-gem "rack-timeout", github: 'kch/rack-timeout'
+gem "rack-timeout", '~> 0.1.0beta2'
 

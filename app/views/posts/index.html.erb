@@ -1,73 +1,72 @@
-	<div id="tLine" class="tLine fontFamily">
-	<div class="vLine">
-		<%= image_tag( 'big-dot.png', :alt => "Beginning", :class => 'bigDot') %>
-	</div>
-	<form id="messageForm" method="post" action="/posts/create" class="formPos">
-		<select class="select fontFamily" id="user_params[user_id]" name="user_params[user_id]">
-			<option value="1">Saeed</option>
-			<option value="2">Amir</option>
-			<option value="3">Sadegh</option>
-			<option value="4">Hamed</option>
-			<option value="5">Pouria</option>
-		</select><br />
-		<input id="user_params[parent]" name="user_params[parent]" value="0" type="hidden">
-		<input id="user_params[msg]" type="text" name="user_params[msg]" class="roundLeft textBox" /> 
-		<input id="user_params[dir]" name="user_params[dir]" type="hidden" value="0">
-		<input id="submitButton" class="roundRight button fontFamily" type="submit" value="Submit Query"/>
-	</form>
-	<div class="blankBox"></div>
-	<div id="messagesBox" class="messagesBox bgY">
-		<ul>	
-			<% @posts.each do |message| %> 
-				<div class="msgblock">
-				 	<div class="dot"></div>
-					<% a = [] %>
-					<% a = message["created_at"].to_s.split(/[\s|\:|\ |-]/) %>
-				 	<% pic_address = @our_names[ message["user_id"]] + ".jpg" %>
-				 	<% replyInputId = "replyInput" + message["id"].to_s %>
-				 	<% replyDirId = "replyDir" + message["id"].to_s %>
-				 	<%= image_tag(pic_address, :alt => "Profile Picture", :class => 'profilePic round') %>
-				 	<li class="shiftRight">
-				  		<p class="msgAuthor"><%= @our_names[ message["user_id"]] + " at " + a[3] + ":" + a[4] %></p> 
-				  		<div class="msgContainer <%= "right2left" if (message['dir'] == 1) %>"> <%= message["msg"] %> </div>
-					</li>
-				</div>
+<div id="tLine" class="tLine fontFamily">
 
-				<% @replies.select {|x| x.parent == message.id}.each do |reply| %>
-					<li class="replyBox">
-						<% pic_address = @our_names[ reply["user_id"]] + ".jpg" %>
-						<%= image_tag(pic_address, :alt => "Profile Picture", :width => '30px', :height => '30px', :class => 'replyPic round') %>
-						<div class="repTimeBox">
-							<% rep = [] %>
-							<% repTime = reply["created_at"].to_s.split(/[\s|\:|\ |-]/) %>
-							<%= @our_names[reply["user_id"]] + " at " + repTime[3] + ":" + repTime[4] %>
-						</div>
-						<div class="replyMsgBox  <%= "right2left" if ( reply["dir"] == 1 ) %>">
-							<%= reply["msg"] %>
-						</div>
-					</li>
-				<% end %>
-				<div class="commentBox op-50">
-					<form id="replyForm" method="post" action="/posts/create">
-						<select class="repSelect roundLeft fontFamily" id="user_params[user_id]" name="user_params[user_id]" name="user_params[user_id]">
-							<option value="1">Saeed</option>
-							<option value="2">Amir</option>
-							<option value="3">Sadegh</option>
-							<option value="4">Hamed</option>
-							<option value="5">Pouria</option>
-						</select>				
-						<input id="user_params[msg]" name="user_params[msg]" type="text" class="repTextBox" /> 
-						<input id="user_params[dir]" name="user_params[dir]" type="hidden" value="0">
-						<input id="repSubmitButton" class="roundRight repButton fontFamily" type="submit" value="Reply"/><br />
-						<input id="user_params[parent]" name="user_params[parent]" type="hidden" value="<%= message['id'] %>" >
-					</form>
-				</div>
-			<% end %>
+  <div class="vLine">
+    <%= image_tag( 'big-dot.png', :alt => "Beginning", :class => 'bigDot') %>
+  </div>
 
-		</ul>
-	</div>
-	<div class="bgY footerVline"></div>
-	<div class="footer"><%= image_tag( 'big-dot.png', :alt => "End") %> 
-		<span class="fontFamily copyRight">kelasiTline &copy 2013</span>
-	</div>
+  <div class="formPos">
+    <%= form_tag "/posts", method: "post", id: "messageForm" do %>
+      <p><%= @user[:name] %><a href='/logout'>logout</a></p>
+
+      <input type="text" id="msg" name="msg" class="roundLeft textBox" /> 
+      <input type="hidden" id="dir" name="dir" value="0">
+      <input type="submit" id="submitButton" class="roundRight button fontFamily" value="Submit Query"/>
+    <% end %>
+  </div>
+
+  <div class="blankBox"></div>
+
+  <div id="messagesBox" class="messagesBox bgY">
+
+    <ul>	
+      <% @posts.each do |message| %> 
+        <div class="msgblock">
+          <div class="dot"></div>
+
+          <% a = message["created_at"].to_s.split(/[\s:-]/) %>
+          <% pic_address = message.user.name + ".jpg" %>
+          <% replyInputId = "replyInput#{message[:id]}" %>
+          <% replyDirId = "replyDir#{message[:id]}" %>
+          <%= image_tag(pic_address, :alt => "Profile Picture", :class => 'profilePic round') %>
+
+          <li class="shiftRight">
+            <p class="msgAuthor"><%= message.user.name + " at " + a[3] + ":" + a[4] %></p>
+            <div class="msgContainer <%= "right2left" if (message['dir'] == 1) %>"> <%= message["msg"] %> </div>
+          </li>
+        </div>
+
+        <% message.replies.reverse.each do |reply| %>
+          <li class="replyBox">
+            <% pic_address = reply.user.name + ".jpg" %>
+            <%= image_tag(pic_address, :alt => "Profile Picture", :width => '30px', :height => '30px', :class => 'replyPic round') %>
+            <div class="repTimeBox">
+              <% repTime = reply["created_at"].to_s.split(/[\s:-]/) %>
+              <%= reply.user.name + " at " + repTime[3] + ":" + repTime[4] %>
+            </div>
+            <div class="replyMsgBox  <%= 'right2left' if ( reply[:dir] == 1 ) %>">
+              <%= reply[:msg] %>
+            </div>
+          </li>
+        <% end %>
+
+        <div class="commentBox op-50">
+          <%= form_tag "/posts", id: "replyForm", method: "post" do %>
+            <input type="text" id="msg" name="msg" class="repTextBox" />
+            <input type="hidden" id="dir" name="dir" value="0">
+            <input type="hidden" id="parent_id" name="parent_id" value="<%= message[:id] %>" >
+            <input type="submit" id="repSubmitButton" class="roundRight repButton fontFamily" value="Reply"/><br />
+          <% end %>
+        </div>
+
+      <% end %>
+
+    </ul>
+  </div>
+
+  <div class="bgY footerVline"></div>
+
+  <div class="footer">
+    <%= image_tag( 'big-dot.png', :alt => "End") %>
+    <span class="fontFamily copyRight">kelasiTline &copy 2013</span>
+  </div>
 </div>

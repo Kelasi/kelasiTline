@@ -6,6 +6,9 @@
 	<%= csrf_meta_tags %>
 </head>
 <body>
+<% if Rails.env.development? %>
+  <pre style="position:fixed;bottom:0"><%= session.to_yaml %></pre>
+<% end %>
 	<%= render 'layouts/header' %>
 	<%= yield %>
 </body>
