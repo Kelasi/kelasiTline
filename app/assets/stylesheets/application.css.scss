@@ -1,0 +1,51 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ */
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url(/Raleway.woff) format('woff');
+}
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Yanone Kaffeesatz Light'), local('YanoneKaffeesatz-Light'), url(/YanoneKaffeesatz-Light.woff) format('woff');
+}
+
+@import 'foundation_and_overrides';
+
+header .panel h2 {
+    text-align: center;
+}
+
+#body {
+    margin: auto;
+    font-size: 14px;
+}
+
+.radius {
+    @include radius;
+}
+
+#body .glow {
+    @include block-glowing-effect(hover);
+    &.selected {
+        -webkit-box-shadow: 0 0 5px $primary-color;
+        -moz-box-shadow: 0 0 5px $primary-color;
+        box-shadow: 0 0 5px $primary-color;
+        // border-color: $primary-color;
+        background-color: darken($secondary-color, .25);
+    }
+}
+

@@ -21,6 +21,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'spork-rails'
+  gem 'capybara'
+  gem 'jazz_hands'
 end
 
 
@@ -34,9 +36,12 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+  gem 'zurb-foundation'
 end
 
 gem 'jquery-rails'
+gem 'angularjs-rails'
+gem 'haml-rails'
 
 
 # To use ActiveModel has_secure_password
@@ -54,5 +59,6 @@ gem 'unicorn'
 # To use debugger
 # gem 'debugger'
 
-gem "rack-timeout", github: 'kch/rack-timeout'
+gem "rack-timeout", '~> 0.1.0beta2'
+gem 'heroku-deflater'
 

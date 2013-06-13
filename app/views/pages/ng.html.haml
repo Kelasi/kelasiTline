@@ -1,0 +1,65 @@
+- content_for :title do
+  ng
+
+- content_for :head do
+  = stylesheet_link_tag 'ng'
+
+- content_for :script do
+  = javascript_include_tag 'jquery.autosize'
+  = javascript_include_tag 'jquery.timeago'
+  = javascript_include_tag 'ng'
+
+.row(ng-controller="resourcesCtrl")
+  .row
+    .large-5.large-centered.columns
+      .alert-box.success.radius(data-alert style="display:none")
+        %i.icon-info-sign
+        loading...
+        %a.close
+          %i.icon-remove-circle
+
+  .large-4.columns
+    .panel.radius
+      .section-container.vertical-nav
+        %img.radius(ng-src="{{loggedInUser.picture}}")
+        %p(class="right")
+          notifications: 0
+        %section.section(ng-repeat="user in users")
+          %p.title
+            %a.glow(id="user-{{user.id}}" ng-click="userLogin(user.id)")
+              %span.name {{user.name}}
+
+  #all-posts.large-8.columns
+    #post-panel.panel.radius(ng-show="loggedInUser.id")
+      %form
+        %textarea(ng-model="postMessage" placeholder="Enter some text")
+        %a.small.button(ng-click="postSubmit()") Send
+    .panel.radius(ng-repeat="post in posts" id="post-{{post.id}}")
+      .row
+        .large-2.columns
+          %img.radius(ng-src="{{users[post.user_id].picture}}")
+        .large-10.columns
+          %time.timeago(datetime="{{post.updated_at}}")
+            {{properTime(post.updated_at)}}
+          %a.delete-button(ng-click="deletePost(post.id)")
+            %i.icon-remove-sign
+          %pre {{post.msg}}
+          %div(ng-repeat="reply in post.replies.reversed()" id="post-{{reply.id}}")
+            %hr
+            .row
+              .large-2.columns
+                %img.radius(ng-src="{{users[reply.user_id].picture}}")
+              .large-10.columns
+                %time.timeago(datetime="{{reply.updated_at}}")
+                  {{properTime(reply.updated_at)}}
+                %a.delete-button(ng-click="deletePost(reply.id)")
+                  %i.icon-remove-sign
+                %pre {{reply.msg}}
+          %form(ng-show="loggedInUser.id")
+            .row.collapse
+              .large-10.columns
+                %textarea(id="reply-{{post.id}}")
+              .large-2.columns
+                %a.button.secondary.small(ng-click="replyClick(post.id)")
+                  Reply
+

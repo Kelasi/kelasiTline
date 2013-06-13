@@ -1,3 +1,13 @@
 class Post < ActiveRecord::Base
-  attr_accessible :msg, :user_id, :parent, :dir
+  attr_accessible :msg, :user_id, :parent_id, :dir, :status
+  belongs_to :parent, class_name: "Post"
+  has_many :replies, class_name: "Post", foreign_key: "parent_id",
+    dependent: :destroy
+
+  belongs_to :user
+
+  default_scope -> { order('created_at desc').where(status: 1) }
+  scope :recent_posts, ->(num=20) { where(parent_id: [0, nil]).limit(num) }
+
+  validates :msg, presence: true
 end
