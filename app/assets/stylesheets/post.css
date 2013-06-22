@@ -48,6 +48,10 @@ html, body {
     display: inline;
 }
 
+#body ul {
+    margin-left: 1.25em;
+}
+
 input.textBox {
     border: 1px solid #2e75ce;
     border-right: 0;

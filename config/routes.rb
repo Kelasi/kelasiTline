@@ -9,7 +9,7 @@ KelasiTline::Application.routes.draw do
   post 'login(.:format)', to: 'pages#do_login'
   get 'logout', to: 'pages#logout'
 
-  root to: "posts#index"
+  root to: "pages#ng"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

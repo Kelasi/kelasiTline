@@ -5,7 +5,7 @@ Array.prototype.reversed = ->
 @loading = (show= true) ->
   clearTimeout @timeout
   if show
-    @timeout = setTimeout("$('.alert-box').slideDown()", 50)
+    @timeout = setTimeout("$('.alert-box').slideDown()", 750)
   else
     $('.alert-box').slideUp()
 
@@ -76,9 +76,19 @@ Array.prototype.reversed = ->
     $http.delete("/posts/#{id}.json")
       .success (data) ->
         id = "#post-#{data.id}"
-        console.log id
         $(id).slideUp()
         loading off
+
+  $scope.showDelete = (id, show) ->
+    item = $("#post-#{id} > .row > .columns > .delete-button")
+    if show
+      item.show()
+    else
+      item.hide()
+
+  $scope.showReply = (id) ->
+    $("#post-#{id} .reply-placeholder").hide()
+    $("#post-#{id} .reply-box").show()
 
   $scope.properTime = (time) ->
     if time?
