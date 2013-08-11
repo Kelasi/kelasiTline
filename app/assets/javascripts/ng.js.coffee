@@ -7,7 +7,7 @@
 #= require 'controllers/ng.controller'
 #= require 'models/ng.model'
 
-@ngapp = angular.module("ngapp", ["ngapp.service", "ngapp.directive", "ngapp.filter", "ngapp.model"],
+@ngapp = angular.module("ngapp", ["ngapp.service", "ngapp.directive", "ngapp.filter", "ngapp.model", "ngCookies"],
   ['$routeProvider', '$locationProvider', '$httpProvider', ($routeProvider, $locationProvider, $httpProvider) ->
     token = $("meta[name='csrf-token']").attr("content")
     $httpProvider.defaults.headers.common["X-CSRF-Token"] = token

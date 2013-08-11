@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require foundation
 //= require angular
+//= require angular-cookies
 
 $(function(){ $(document).foundation(); });
 $(function() {
