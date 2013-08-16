@@ -12,6 +12,7 @@ group :development do
   gem 'ruby_gntp'
   gem 'guard-spork'
   gem 'guard-rspec'
+  gem 'meta_request'
 end
 
 group :production do
