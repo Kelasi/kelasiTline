@@ -66,7 +66,8 @@ ngapp.controller "resourcesCtrl",
     ]
 
 ngapp.controller "commandCntl",
-  [ '$scope', '$rootScope', '$http', '$q', '$cookieStore', 'users', 'notification', ($scope, $rootScope, $http, $q, $cookieStore, users, notification) ->
+  [ '$scope', '$rootScope', '$http', '$q', '$cookieStore', 'users', 'posts', 'notification'
+  ($scope, $rootScope, $http, $q, $cookieStore, users, posts, notification) ->
     loading = (p) -> notification.loading p
     $scope.placeholder = "Try typing 'login <Your Name>'"
     loggedInUser = $cookieStore.get 'loggedInUser'
@@ -80,6 +81,10 @@ ngapp.controller "commandCntl",
 
     $scope.runCommand = ->
       cmd = $scope.command.split ' '
+      if cmd[0] == 'reload'
+        posts.load().then ->
+          $scope.command = ''
+
       if cmd[0] == 'login'
         loading $q.when(users.data).then (users) ->
           user = (users[u] for u of users when users[u].name == cmd[1])

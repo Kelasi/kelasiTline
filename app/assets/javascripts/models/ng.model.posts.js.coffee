@@ -3,13 +3,18 @@
 class Posts
   constructor: (@q, @http) ->
 
+  data: []
+
   load: () ->
     r = @q.defer()
-    @http.get("/posts.json").success (data) ->
-      for p in data
+    @http.get("/posts.json").success (data_r) =>
+      result = @data
+      result.length = 0
+      for p in data_r
         p.replies ?= []
-      r.resolve data
-    @data = r.promise
+        result.push p
+      r.resolve result
+    r.promise
 
   delete: (id) ->
     $http.delete("/posts/#{id}.json")
