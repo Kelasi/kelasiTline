@@ -22,9 +22,10 @@
                   ng-mouseenter="showDelete(post.id, post.user_id==loggedInUser.id)"
                   ng-mouseleave="showDelete(post.id, false)")
       .row
-        .large-2.columns
+        .large-1.columns
           %img.radius(ng-src="{{users[post.user_id].picture}}")
-        .large-10.columns
+        .large-11.columns
+          %span.post-id {{post.id}}
           %time.timeago(datetime="{{post.updated_at}}" ng-bind="properTime(post.updated_at)")
           %a.delete-button(ng-click="deletePost(post.id)")
             %i.icon-remove-sign
@@ -35,9 +36,9 @@
                ng-mouseleave="showDelete(reply.id, false)")
             %hr
             .row
-              .large-2.columns
+              .large-1.columns
                 %img.radius(ng-src="{{users[reply.user_id].picture}}")
-              .large-10.columns
+              .large-11.columns
                 %time.timeago(datetime="{{reply.updated_at}}" ng-bind="properTime(reply.updated_at)")
                 %a.delete-button(ng-click="deletePost(reply.id)")
                   %i.icon-remove-sign

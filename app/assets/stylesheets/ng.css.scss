@@ -16,12 +16,19 @@
         height: auto;
     }
 
-    & time {
+    & time, .post-id {
         font-size: 0.8571em;
         font-family: monospace;
         color: rgba(#222, 0.4);
-        display: block;
-        margin-bottom: 1.35em;
+        display: inline;
+    }
+
+    & .post-id:before {
+        content: "#";
+    }
+
+    & .post-id:after {
+        content: " - ";
     }
 
     & form {
@@ -42,7 +49,7 @@
         white-space: pre-wrap;
     }
 
-    & > .panel > .row > .large-10 {
+    & > .panel > .row > .large-11 {
 
         & .row > .large-2 > img {
             width: 3.4286em;
@@ -80,3 +87,6 @@
     }
 }
 
+pre {
+    margin-top: 0.7em;
+}
