@@ -81,6 +81,24 @@ ngapp.controller "commandCntl",
 
     $scope.runCommand = ->
       cmd = $scope.command.split ' '
+      if ( cmd[0] == 'reply'&& cmd[1] == 'to' )
+        id = cmd[2]
+        cmd2l = cmd[2].length 
+        commandl = $scope.command.length
+        rep = $('#reply-'+id)
+        repContent = $scope.command.substring(10+cmd2l,commandl)
+        return if repContent == ''
+        rep.val(repContent)
+        msg = rep.val()
+        rep.val ''
+        loading $http.post('/posts.json', {msg: msg, parent_id: id})
+          .success (data) ->
+            $q.when($scope.posts).then (posts) ->
+              for p in posts
+                if p.id == data.parent_id
+                  p.replies.unshift data    
+            $scope.command = ''          
+
       if cmd[0] == 'post'
         lc = $scope.command.length
         $scope.newCommand = $scope.command.substring(5,lc) 
