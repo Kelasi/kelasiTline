@@ -31,18 +31,6 @@
         content: " - ";
     }
 
-    & form {
-        margin-top: 0;
-        margin-bottom: 0;
-        & textarea, & .button { margin-bottom: 3px; }
-        & textarea {
-            -webkit-transition: height 0.2s;
-            -moz-transition: height 0.2s;
-            transition: height 0.2s;
-            overflow-y: hidden;
-        }
-    }
-
     & pre {
         font-family: "Raleway", sans-serif;
         word-wrap: break-word;
@@ -67,22 +55,6 @@
                 &:after {content: "delete";}
                 color: rgba(#666, 1);
             }
-        }
-    }
-
-    & .reply-placeholder p {
-        margin-top: 2em;
-        margin-bottom: 0;
-        opacity: 0.35;
-        cursor: text;
-    }
-
-    & .panel > .row.reply-box {
-        margin-top: 2em;
-        & > .large-2 > img {
-            float: right;
-            width: 2.7142em;
-            height: auto;
         }
     }
 }

@@ -34,6 +34,7 @@ ngapp.controller "resourcesCtrl",
       $scope.replyClick = (id) ->
         rep = $('#reply-'+id)
         msg = rep.val()
+        console.log(msg)
         rep.val ''
         loading $http.post('/posts.json', {msg: msg, parent_id: id})
           .success (data) ->
@@ -66,58 +67,25 @@ ngapp.controller "resourcesCtrl",
     ]
 
 ngapp.controller "commandCntl",
-  [ '$scope', '$rootScope', '$http', '$q', '$cookieStore', 'users', 'posts', 'notification'
-  ($scope, $rootScope, $http, $q, $cookieStore, users, posts, notification) ->
+  [ '$scope', '$rootScope', '$cookieStore', 'notification', 'command'
+  ($scope, $rootScope, $cookieStore, notification, command) ->
     loading = (p) -> notification.loading p
+
     $scope.placeholder = "Try typing 'login <Your Name>'"
+    $rootScope.$watch 'loggedInUser', (nval) ->
+      $scope.placeholder = if nval?
+        "Now You can type 'logout'"
+      else
+        "Try typing 'login <Your Name>'"
+
     loggedInUser = $cookieStore.get 'loggedInUser'
     if loggedInUser?
-      $http.post('/login.json', loggedInUser)
-        .success (data) ->
-          return unless data.id == loggedInUser.id
-
-          $scope.placeholder = "Now You can type 'logout'"
-          $rootScope.loggedInUser = loggedInUser
+      command.run('login', loggedInUser.name)
 
     $scope.runCommand = ->
-      cmd = $scope.command.split ' '
-      if cmd[0] == 'post'
-        lc = $scope.command.length
-        $scope.newCommand = $scope.command.substring(5,lc) 
-        msg = $scope.newCommand.trim()
-        return if msg == ''
-
-        loading $http.post('/posts.json', {msg: $scope.newCommand})
-          .success (data) ->
-            unless data.user_id != $scope.loggedInUser.id
-              data.replies ?= []
-              $q.when($scope.posts).then (p) -> p.unshift data
-              $scope.command = ''
-      
-      if cmd[0] == 'reload'
-        posts.load().then ->
-          $scope.command = ''
-
-      if cmd[0] == 'login'
-        loading $q.when(users.data).then (users) ->
-          user = (users[u] for u of users when users[u].name == cmd[1])
-          if user.length == 1
-            user = user[0]
-          else
-            console.log 'Error', user, users, cmd
-            return
-          $http.post('/login.json', user)
-            .success (data) ->
-              return unless data.id == user.id
-
-              $scope.command = ''
-              $scope.placeholder = "Now You can type 'logout'"
-              $rootScope.loggedInUser = user
-              $cookieStore.put 'loggedInUser', user
-      if cmd[0] == 'logout'
-        loading $http.get('/logout').success ->
-          $rootScope.loggedInUser = null
-          $cookieStore.put 'loggedInUser', null
-          $scope.command = ''
-          $scope.placeholder = "Try typing 'login <Your Name>'"
+      cmd_i = $scope.command.indexOf(' ')
+      parameter = if cmd_i > 0 then $scope.command.substring(cmd_i).trim() else ''
+      corr_command = if cmd_i > 0 then $scope.command.substring(0, cmd_i) else $scope.command
+      loading command.run(corr_command,parameter)
+      $scope.command = ''
   ]
