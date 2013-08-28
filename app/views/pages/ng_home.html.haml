@@ -1,10 +1,6 @@
 
 .row(style="position:relative; margin: auto; width:0;")
-  .alert-box.alert(data-alert style="display:none")
-    %a(href="javascript:location.reload()")
-      reload
-    %i.icon-info-sign
-    Something went wrong!
+  %div(ngapp-notify="{{notification}}" delay="1000")
 
 .row(ng-controller="commandCntl")
   .large-12.columns

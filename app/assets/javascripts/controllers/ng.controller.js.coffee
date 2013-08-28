@@ -1,4 +1,6 @@
 
+ngapp = angular.module 'ngapp'
+
 ngapp.controller "resourcesCtrl",
     ['$scope', '$http', '$q', '$timeout', 'notification', 'utilities', 'users', 'posts',
     ($scope, $http, $q, $timeout, notification, utilities, users, posts) ->

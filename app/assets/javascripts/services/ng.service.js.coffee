@@ -37,7 +37,7 @@ class Command
             for p in @posts.data
               if p.id == data.parent_id
                 p.replies ?= []
-                p.replies.unshift data           
+                p.replies.unshift data
 
       when "logout"
         @http.get('/logout').success =>
@@ -74,52 +74,53 @@ class Command
         @http.delete("/posts/#{parameter}.json")
           .success (data) ->
             id = "#post-#{data.id}"
-            $(id).slideUp()   
+            $(id).slideUp()
       else
         result.reject 'Command not found'
         return result.promise
-      
-ngapp_service.factory("command", 
-  ['$http', '$q', '$rootScope', '$cookieStore', 'posts', 'users', ($http, $q, $rootScope, $cookieStore, posts, users) ->
+
+ngapp_service.factory("command",
+  ['$http', '$q', '$rootScope', '$cookieStore', 'posts', 'users',
+  ($http, $q, $rootScope, $cookieStore, posts, users) ->
     new Command $http, $q, $rootScope, $cookieStore ,posts, users
   ]
 )
 
 
 class Notification
-  constructor: (@timeout, @q) ->
+  constructor: (@rootScope, @q) ->
 
-  timeoutId: null
   jobs: []
+  promises: []
 
   clean: ->
-    @timeout.cancel @timeoutId if @timeoutId?
-    @timeoutId = null
-    $('.alert-box').slideUp()
+    @rootScope.notification = null
 
   check: ->
     if (0 for j in @jobs when j.done).length
       @jobs = []
+      @promises = []
       @clean()
 
   loading: (promise) ->
-    @timeoutId = @timeout( (-> $('.alert-box').slideDown()) , 750)
+    @rootScope.notification = "Still Working..."
 
     @jobs.push job = done: no
     finish_func = =>
       job.done = yes
-      promise
-    promise.then finish_func, finish_func
-
+    @promises.push promise.then finish_func, finish_func
+    @q.all(@promises).then => @check()
+    promise
 
 
 ngapp_service.factory("notification",
-  ['$timeout', '$q', ($timeout, $q) ->
-    new Notification $timeout, $q
+  ['$rootScope', '$q', ($rootScope, $q) ->
+    new Notification $rootScope, $q
   ]
 )
 
-ngapp_service.factory("utilities", 
+
+ngapp_service.factory("utilities",
   [ '$timeout', '$http', '$q', 'notification'
   ($timeout, $http, $q, notification) ->
     return {
