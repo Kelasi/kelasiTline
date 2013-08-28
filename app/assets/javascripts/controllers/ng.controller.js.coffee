@@ -2,15 +2,9 @@
 ngapp = angular.module 'ngapp'
 
 ngapp.controller "resourcesCtrl",
-    ['$scope', '$http', '$q', '$timeout', 'notification', 'utilities', 'users', 'posts',
-    ($scope, $http, $q, $timeout, notification, utilities, users, posts) ->
+    ['$scope', '$http', '$q', '$timeout', 'notification', 'users', 'posts',
+    ($scope, $http, $q, $timeout, notification, users, posts) ->
       loading = (p) -> notification.loading p
-
-      init = ->
-        utilities.initialization()
-        $timeout init, 1500
-
-      init()
 
       $scope.replyMsg = {}
 

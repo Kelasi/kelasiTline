@@ -1,5 +1,4 @@
-#= require 'jquery.autosize'
-#= require 'jquery.timeago'
+#= require 'moment'
 #= require_self
 #= require 'services/ng.service'
 #= require 'filters/ng.filter'

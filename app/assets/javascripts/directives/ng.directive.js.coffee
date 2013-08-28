@@ -1,7 +1,7 @@
 
 
 angular.module("ngapp.directive", [])
-  .directive 'ngappNotify', ->
+  .directive('ngappNotify', ->
     {
       restrict: 'A'
       template:
@@ -21,4 +21,20 @@ angular.module("ngapp.directive", [])
           else
             $(element).stop(true, false).slideUp()
     }
+  ).directive('ngappTimeago', ['$timeout', ($timeout)->
+    {
+      restrict: 'A'
+      template: '<time></time>'
+      replace: true
+      scope: false
+      link: (scope, element, attrs) ->
+        timeoutId = null
+        tick = ->
+          time = attrs['ngappTimeago']
+          $(element).text moment(time).fromNow()
+          timeoutId = $timeout tick, 1000
+        tick()
+        element.on '$destroy', -> $timeout.cancel timeoutId
+    }
+  ])
 
