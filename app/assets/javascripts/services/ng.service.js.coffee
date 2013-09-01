@@ -22,6 +22,28 @@ class Command
             data.replies ?= []
             @posts.data.unshift data
 
+      when "edit"  
+        id_place = parameter.indexOf(' ')
+        id = parameter.substring(0, id_place) 
+        edit_section = parameter.substring(id_place).trim()        
+        sepMark_place = edit_section.indexOf('>>')   
+        orig_text = eval(edit_section.substring(0,sepMark_place-1))
+        corr_text = edit_section.substring(sepMark_place+2)
+        user = @rootScope.loggedInUser
+        unless user?
+          result.reject 'You should be logged in first'
+          return result.promise            
+        post = (p for p in @posts.data when p.id.toString() == id)
+        unless post.length == 1
+          result.reject 'There is no post with this id'
+          return result.promise
+        if post[0].user_id != user.id
+          result.reject 'You do not have permission to delete this post'
+          return result.promise
+        edited_text = post[0].msg.replace(orig_text,corr_text)
+        @http.put("/posts/#{id}.json", {msg: edited_text}) 
+          .success (posts) =>
+            @posts.load()
 
       when "reload"
         @posts.load()
