@@ -35,6 +35,16 @@ class PostsController < ApplicationController
     end
   end
 
+  def update
+    @post = Post.find(params[:id])
+    @post.msg = params[:msg]
+    @post.save
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: @post }
+    end
+  end  
+
   private
 
   	def auth
