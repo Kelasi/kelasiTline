@@ -39,6 +39,15 @@ describe PostsController do
         expect(Post.last.user_id).to eq 2
       end
     end
+
+    context 'update action' do
+      it "Should update a post" do
+        new_post = Post.create! msg: "Sample Post"
+        put 'update', id: new_post.id, msg: "Changed", format: :json
+        new_post.reload
+        expect(new_post.msg).to eq "Changed"
+      end
+    end
 	end
 
   context 'logged out' do
