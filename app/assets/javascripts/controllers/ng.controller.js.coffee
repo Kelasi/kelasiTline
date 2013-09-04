@@ -11,8 +11,8 @@ ngapp.controller "resourcesCtrl",
     ]
 
 ngapp.controller "commandCntl",
-  [ '$scope', '$rootScope', '$cookieStore', 'notification', 'command'
-  ($scope, $rootScope, $cookieStore, notification, command) ->
+  [ '$scope', '$rootScope', 'notification', 'command'
+  ($scope, $rootScope, notification, command) ->
     loading = (p) -> notification.loading p
 
     $scope.placeholder = "Try typing 'login <Your Name>'"
@@ -22,7 +22,7 @@ ngapp.controller "commandCntl",
       else
         "Try typing 'login <Your Name>'"
 
-    loggedInUser = $cookieStore.get 'loggedInUser'
+    loggedInUser = store.get 'loggedInUser'
     if loggedInUser?
       command.run('login', loggedInUser.name)
 

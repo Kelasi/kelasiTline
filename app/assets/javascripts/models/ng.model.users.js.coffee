@@ -3,6 +3,7 @@ class Users
   constructor: (@q, @http) ->
 
   data: {}
+  loaded: false
 
   load: () ->
     r = @q.defer()
@@ -12,6 +13,7 @@ class Users
         delete result[p]
       for user in data_r
         result[user.id.toString()] = user
+      @loaded = true
       r.resolve result
     return r.promise
 

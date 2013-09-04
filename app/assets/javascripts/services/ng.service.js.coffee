@@ -4,7 +4,7 @@ ngapp_service = angular.module("ngapp.service", [])
 
 
 class Command
-  constructor: (@http, @q, @rootScope, @cookieStore, @posts, @users) ->
+  constructor: (@timeout, @http, @q, @rootScope, @posts, @users) ->
 
   run: (commandd, parameter) ->
 
@@ -75,11 +75,14 @@ class Command
       when "logout"
         @http.get('/logout').success =>
           @rootScope.loggedInUser = null
-          @cookieStore.put 'loggedInUser', null
+          store.remove 'loggedInUser'
 
       when "login"
-        @q.when(@users.data).then (users) =>
-          user = (users[u] for u of users when users[u].name == parameter)
+        do_login = =>
+          unless @users.loaded
+            @timeout do_login, 30
+            return
+          user = (@users.data[u] for u of @users.data when @users.data[u].name == parameter)
           if user.length == 1
             user = user[0]
           else
@@ -90,7 +93,8 @@ class Command
               return unless data.id == user.id
 
               @rootScope.loggedInUser = user
-              @cookieStore.put 'loggedInUser', user
+              store.set 'loggedInUser', user
+        do_login()
 
       when 'delete'
         user = @rootScope.loggedInUser
@@ -125,9 +129,9 @@ class Command
         return result.promise
 
 ngapp_service.factory("command",
-  ['$http', '$q', '$rootScope', '$cookieStore', 'posts', 'users',
-  ($http, $q, $rootScope, $cookieStore, posts, users) ->
-    new Command $http, $q, $rootScope, $cookieStore ,posts, users
+  ['$timeout', '$http', '$q', '$rootScope', 'posts', 'users',
+  ($timeout, $http, $q, $rootScope, posts, users) ->
+    new Command $timeout, $http, $q, $rootScope, posts, users
   ]
 )
 
