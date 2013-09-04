@@ -19,8 +19,7 @@ class Command
 
         @http.post('/posts.json', {msg: parameter})
           .success (data) =>
-            data.replies ?= []
-            @posts.data.unshift data
+            @posts.append data, true
 
       when "edit"
         id_place = parameter.indexOf(' ')
@@ -69,10 +68,9 @@ class Command
           return result.promise
         @http.post('/posts.json', { msg: repContent, parent_id: id})
           .success (data) =>
-            for p in @posts.data
+            for p, i in @posts.data
               if p.id == data.parent_id
-                p.replies ?= []
-                p.replies.unshift data
+                @posts.append_reply i, data
 
       when "logout"
         @http.get('/logout').success =>
@@ -99,22 +97,29 @@ class Command
         unless user?
           result.reject 'You should loggin first'
           return result.promise
-        post = (p for p in @posts.data when p.id.toString() == parameter)
+        post = ([p, i] for p, i in @posts.data when p.id.toString() == parameter)
         unless post.length == 1
-          for p in @posts.data
-            for q in p.replies
+          for p, i in @posts.data
+            for q, j in p.replies
               if q.id.toString() == parameter
-                 post = [q]
+                 post = [[q, i, j]]
           unless post.length == 1 
             result.reject 'There is no post with this id'
             return result.promise
-        if post[0].user_id != user.id
+        post_index = post[0][1]
+        reply_index = post[0][2]
+        post = post[0][0]
+        if post.user_id != user.id
           result.reject 'You do not have permission to delete this post'
           return result.promise
         @http.delete("/posts/#{parameter}.json")
-          .success (data) ->
+          .success (data) =>
             id = "#post-#{data.id}"
             $(id).slideUp()
+            if reply_index?
+              @posts.data[post_index].replies.splice(reply_index, 1)
+            else
+              @posts.data.splice post_index, 1
       else
         result.reject 'Command not found'
         return result.promise
@@ -154,6 +159,22 @@ class Notification
 ngapp_service.factory("notification",
   ['$rootScope', '$q', ($rootScope, $q) ->
     new Notification $rootScope, $q
+  ]
+)
+
+class TimeAgo
+  constructor: (@timeout) ->
+    @timeout((=>@tick()), 200)
+
+  timeagos: []
+
+  tick: ->
+    t[0].text t[1].fromNow() for t in @timeagos when t?
+    @timeout((=>@tick()), 5000)
+
+ngapp_service.factory("timeago",
+  ['$timeout', ($timeout) ->
+    new TimeAgo $timeout
   ]
 )
 

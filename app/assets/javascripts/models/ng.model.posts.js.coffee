@@ -1,20 +1,32 @@
 
 
 class Posts
-  constructor: (@q, @http) ->
+  constructor: (@q, @http, @users) ->
 
   data: []
 
   load: () ->
     r = @q.defer()
     @http.get("/posts.json").success (data_r) =>
-      result = @data
-      result.length = 0
-      for p in data_r
-        p.replies ?= []
-        result.push p
-      r.resolve result
+      @data.length = 0
+      @append p for p in data_r
+      r.resolve @data
     r.promise
+
+  append: (post, prepend=false) ->
+    make_post = (p) =>
+      p.user = => @users.data[p.user_id.toString()]
+      if p.replies? and p.replies.length > 0
+        p.replies =
+          make_post(rep) for rep in p.replies
+      else p.replies = []
+      p
+    @data[`prepend ? 'unshift': 'push'`] make_post post
+
+  append_reply: (post_index, reply) ->
+    reply.user = => @users.data[reply.user_id.toString()]
+    reply.replies = []
+    @data[post_index].replies.unshift reply
 
   delete: (id) ->
     $http.delete("/posts/#{id}.json")
@@ -29,6 +41,6 @@ class Posts
 
 
 ngapp_model.factory 'posts',
-  ['$q', '$http', ($q, $http)->
-    new Posts $q, $http
+  ['$q', '$http', 'users', ($q, $http, users)->
+    new Posts $q, $http, users
   ]
