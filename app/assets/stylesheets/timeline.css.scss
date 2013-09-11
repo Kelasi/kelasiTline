@@ -1,15 +1,11 @@
 .inline-profile-photo {
-	width:  70px;
-	height: 70px;
+	width:  55px;
+	height: 55px;
 	background-color: #14140d;
-	border: 5px solid #f6f9fa;
+	border: 3px solid #f6f9fa;
 	color: #f6f9fa;
-	line-height:70px;
+	line-height:49px;
 	margin: auto;
-
-	& > .glyphicon-comment {
-		font-size: 1.7em;
-	}
 }
 
 .center {
@@ -20,24 +16,24 @@
 
 .post {
 	& > .span10 {
-		margin-bottom: 2em;
+		margin-bottom: 28px;
 	}
 
 	& > .span10 > .span12 {
 		background-color: #f0f0f0;
 		position: relative;
-		padding-left: 1.5em;
-		min-height: 5em;
+		padding-left: 21px;
+		min-height: 70px;
 
 		& .timeago {
 			color: #6aa17a;
-			font-size: 0.7em;
+			font-size: 10px;
 		}
 
 		& .post-id {
 			display: inline;
 			color: #6aa17a;
-			font-size: 0.7em;	
+			font-size: 10px;
 		}
 
 		& .post-id:before {
@@ -55,7 +51,7 @@
 		}
 
 		& .post-message-container {
-			margin-bottom: 1.5em;
+			margin-bottom: 21px;
 		}
 	}
 }
@@ -64,11 +60,11 @@
 	margin-bottom: 0;
 
 	& > hr {
-		margin-left: -1.5em;
+		margin-left: -21px;
 	}
 
 	& > .post > .span10 {
-		margin-bottom: 0.7em;
+		margin-bottom: 10px;
 	}
 
 	& > .post > .span10 > .span12 {
@@ -78,8 +74,8 @@
 		-moz-box-shadow: none;
 		-webkit-box-shadow: none;
 		box-shadow: none;
-		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=0, Direction=180, Color='#f0f0f0')";
-		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=0, Direction=180, Color='#f0f0f0');
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(enabled = false)";
+		filter: progid:DXImageTransform.Microsoft.Shadow(enabled = false);
 
 		& .my-arrow-box{
 			display: none;
@@ -94,6 +90,11 @@
 		border: 0;
 		width: 40px;
 		height: auto;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(enabled = false)";
+		filter: progid:DXImageTransform.Microsoft.Shadow(enabled = false);
 	}	
 }
 
@@ -108,7 +109,6 @@
 .command-bar {
 	position: relative;
 	background-color: #f0f0f0;
-	padding: 0 0 0 0;
 
 	& > .my-arrow-box {
 		position: absolute;
@@ -117,11 +117,10 @@
 	}
 
 	& form {
-	padding: 10px 0 12px 0;
+		padding: 10px 0 12px 0;
 
 		& .span2 .img-circle {
 			float: right;
-			margin-right: 0.2em;
 			width: 40px;
 			height: auto;
 			background-color: #14140d;
@@ -135,9 +134,9 @@
 	border-radius: 5px;
 }
 
-.top-bottom-gap-21 {
-	margin-top: 1.5em;
-	margin-bottom: 1.5em;
+.top-bottom-21px-gap {
+	margin-top: 21px;
+	margin-bottom: 21px;
 }
 
 @media (max-width: 979px) {
@@ -188,7 +187,7 @@
 		}
 	}
 
-	.top-bottom-gap-21 > .span2 {
+	.top-bottom-21px-gap > .span2 {
 		display: none;
 	}
 }

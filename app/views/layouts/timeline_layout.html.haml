@@ -3,8 +3,6 @@
   %head
     %meta( charset="utf-8" )
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
-    %link(href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet")
-
 
     %title= "kelasiTline#{content_for?(:title) ? titleize(yield :title) : ''}"
 
@@ -24,9 +22,6 @@
         = render 'layouts/navigation'
     %sidebar(ng-cloak)
       = render 'timeline_left_sidebar'
-
-    / - if Rails.env.development?
-    /   %pre( style="position:fixed;bottom:0" )= session.to_yaml
 
     #main{:role => "main"}
       = render 'layouts/messages'

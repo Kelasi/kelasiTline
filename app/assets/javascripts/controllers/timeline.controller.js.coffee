@@ -2,8 +2,8 @@
 timeline = angular.module 'timeline'
 
 timeline.controller "resourcesCtrl",
-    ['$scope', '$http', '$q', '$timeout', 'notification', 'users', 'posts',
-    ($scope, $http, $q, $timeout, notification, users, posts) ->
+    ['$scope', 'notification', 'users', 'posts',
+    ($scope, notification, users, posts) ->
       loading = (p) -> notification.loading p
 
       loading($scope.users = users.load())

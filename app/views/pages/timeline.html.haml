@@ -4,10 +4,11 @@
 - content_for :script do
 	= javascript_include_tag 'timeline'
 
-.row.top-bottom-gap-21
+.row.top-bottom-21px-gap
 	.span2
 		.img-circle.inline-profile-photo.center.shadow
-			%span.glyphicon.glyphicon-comment
+			%span
+				>_
 	.span10
 		.round5.command-bar.shadow
 			%img.my-arrow-box(src="/assets/timeline-images/arrow-box.png")
@@ -22,6 +23,4 @@
 
 .row(ng-controller="resourcesCtrl")
 	%div(ng-repeat="post in posts" id="post-{{post.id}}"
-			 ng-mouseenter="showDelete(post.id, post.user_id==loggedInUser.id)"
-			 ng-mouseleave="showDelete(post.id, false)")
 		%div(timeline-post="post")
