@@ -1,12 +1,15 @@
 !!! 5
-%htnl
+%html(ng-app="timeline")
   %head
     %meta( charset="utf-8" )
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
 
     %title= "kelasiTline#{content_for?(:title) ? titleize(yield :title) : ''}"
 
+    = javascript_include_tag "timeline-layout"
+
     = stylesheet_link_tag "bootstrap_and_override", :media => "all"
+    = stylesheet_link_tag "timeline-layout", :media => "all"
 
     = csrf_meta_tags
 
@@ -14,23 +17,19 @@
       = yield :head
 
   %body
-    %header.navbar.navbar-fixed-top
+    %header.navbar.navbar-fixed-top.navbar-inverse
       %nav.navbar-inner
-        .container
-          = render 'layouts/navigation'
-
-    - if Rails.env.development?
-      %pre( style="position:fixed;bottom:0" )= session.to_yaml
+        = render 'layouts/navigation'
+    %sidebar(ng-cloak)
+      = render 'timeline_left_sidebar'
 
     #main{:role => "main"}
-      .container
-        .content
-          .row
-            .span12
-              = render 'layouts/messages'
-              = yield
-          %footer
+      = render 'layouts/messages'
+      .row-fluid
+        .span8
+          = yield
+        .span4
+          = render 'timeline_right_sidebar'
 
-    = javascript_include_tag "application"
     - if content_for? :script
       = yield :script
