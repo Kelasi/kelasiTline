@@ -48,4 +48,26 @@ describe Post do
     expect(p.errors.messages).to have_key :msg
     expect(p.errors.messages[:msg]).to include "can't be blank"
   end
+
+  context "HTML Pipeline" do
+
+    describe :message= do
+
+      subject { Post.new }
+
+      it "should respond to message=" do
+        expect(subject.respond_to? :message=).to be_true
+      end
+
+      it "should understand links" do
+        subject.message = "http://example.com"
+        expect(subject.msg).to eq '<p><a href="http://example.com">http://example.com</a></p>'
+      end
+
+      it "should understand markdown" do
+        subject.message = "This _is_ **text**"
+        expect(subject.msg).to eq '<p>This <em>is</em> <strong>text</strong></p>'
+      end
+    end
+  end
 end

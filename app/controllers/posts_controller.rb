@@ -15,7 +15,7 @@ class PostsController < ApplicationController
   def create
     @message = Post.new
     @message.user_id   = current_user.id
-    @message.msg       = params[:msg]
+    @message.message   = params[:msg]
     @message.parent_id = params[:parent_id] if params[:parent_id].present?
     @message.dir       = params[:dir]
     @message.save

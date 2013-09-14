@@ -35,8 +35,13 @@ describe PostsController do
 
       it "Should create a new user" do
         post 'create', msg: 'test'
-        expect(Post.last.msg).to eq 'test'
+        expect(Post.last.msg).to eq '<p>test</p>'
         expect(Post.last.user_id).to eq 2
+      end
+
+      it "Should use HTML Pipeline on model" do
+        post 'create', msg: 'we *test*'
+        expect(Post.last.msg).to eq '<p>we <em>test</em></p>'
       end
     end
 

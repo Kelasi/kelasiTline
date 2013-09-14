@@ -47,6 +47,8 @@ gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.g
 gem 'angularjs-rails'
 gem 'haml-rails'
 
+# For markdown and Autolinking and emojis :D
+gem 'html-pipeline'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

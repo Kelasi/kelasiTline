@@ -72,9 +72,12 @@ GEM
     diff-lcs (1.2.4)
     diffy (3.0.1)
     erubis (2.7.0)
+    escape_utils (0.3.2)
     execjs (2.0.1)
     ffi (1.9.0)
     formatador (0.2.4)
+    gemoji (1.4.0)
+    github-markdown (0.5.3)
     grit (2.5.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
@@ -103,6 +106,13 @@ GEM
       rack (>= 1.4.5)
     hike (1.2.3)
     hirb (0.7.1)
+    html-pipeline (0.2.1)
+      escape_utils (~> 0.3)
+      gemoji (~> 1.0)
+      github-markdown (~> 0.5)
+      nokogiri (~> 1.4)
+      rinku (~> 1.7)
+      sanitize (~> 2.0)
     i18n (0.6.1)
     jazz_hands (0.5.1)
       awesome_print (~> 1.1.0)
@@ -205,6 +215,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    rinku (1.7.3)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -221,6 +232,8 @@ GEM
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
     ruby_gntp (0.3.4)
+    sanitize (2.0.6)
+      nokogiri (>= 1.4.4)
     sass (3.2.10)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -270,6 +283,7 @@ DEPENDENCIES
   guard-spork
   haml-rails
   heroku-deflater
+  html-pipeline
   jazz_hands
   jquery-rails
   meta_request

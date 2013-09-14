@@ -10,4 +10,16 @@ class Post < ActiveRecord::Base
   scope :recent_posts, ->(num=20) { where(parent_id: [0, nil]).limit(num) }
 
   validates :msg, presence: true
+
+  def message=(message)
+    context = {gfm: true, asset_root: '/images'}
+    pipeline = HTML::Pipeline.new [
+      HTML::Pipeline::MarkdownFilter,
+      HTML::Pipeline::SanitizationFilter,
+      HTML::Pipeline::EmojiFilter,
+      HTML::Pipeline::MentionFilter
+    ], context
+    result = pipeline.call message
+    self.msg = result[:output].to_s
+  end
 end
