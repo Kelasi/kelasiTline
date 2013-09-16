@@ -4,10 +4,10 @@ class PagesController < ApplicationController
   end
 
   def ng_home
-    if request.key? 'HTTP_X_FROM_ANGULAR'
+    if request.xhr?
       render layout: nil
     else
-      redirect_to root_path
+      render :ng
     end
   end
 
