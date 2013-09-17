@@ -42,7 +42,7 @@ angular.module("ngapp.directive", [])
           timeago.timeagos[timeagoIndex][1] = moment(time)
         element.on '$destroy', ->
           if timeagoIndex?
-            timeago.timeagos[timeagoIndex] = null
+            delete timeago.timeagos[timeagoIndex]
     }
   ]).directive('ngappPost', ['$compile', ($compile) ->
     {

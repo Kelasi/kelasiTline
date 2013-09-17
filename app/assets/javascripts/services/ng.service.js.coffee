@@ -168,13 +168,12 @@ ngapp_service.factory("notification",
 
 class TimeAgo
   constructor: (@timeout) ->
-    @timeout((=>@tick()), 200)
+    window.setInterval((=>@tick()), 1000)
 
   timeagos: []
 
   tick: ->
     t[0].text t[1].fromNow() for t in @timeagos when t?
-    @timeout((=>@tick()), 5000)
 
 ngapp_service.factory("timeago",
   ['$timeout', ($timeout) ->

@@ -13,6 +13,8 @@ group :development do
   gem 'guard-spork'
   gem 'guard-rspec'
   gem 'meta_request'
+  gem 'rack-livereload'
+  gem 'guard-livereload'
 end
 
 group :production do
