@@ -6,11 +6,21 @@ html, body {
 }
 
 #main {
-	margin-left: 295px;
+	margin-left: 265px;
+
+	& > .row {
+		margin-right: 0;
+	}
 }
 
-.logo {
-	margin: -14px 77px -14px 50px;
+header .nav a {
+	&:hover {
+		background-color: #222;
+	}
+
+	.logo {
+		margin: -14px 77px -14px 50px;
+	}
 }
 
 .sidebar {
@@ -22,7 +32,7 @@ html, body {
 	top: 0;
 	color: #762d43;
 	overflow: hidden;
-	background-color: #14140D;
+	background-color: #222;
 }
 
 @media (max-width: 1200px) {

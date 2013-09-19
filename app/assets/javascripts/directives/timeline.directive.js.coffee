@@ -41,21 +41,19 @@ angular.module("timeline.directive", [])
       restrict: 'A'
       template:
         '<div class="post">
-          <div class="span2 center">
+          <div class="col-md-2 center">
               <img class="img-circle inline-profile-photo shadow" ng-src="{{image}}" />
               <div class="vertical-line"></div>
           </div>
-          <div class="span10">
-            <div class="span12 round5 command-div shadow">
+          <div class="col-md-10">
+            <div class="col-md-12 round5 command-div shadow">
               <img class="my-arrow-box" src="/assets/timeline-images/arrow-box.png" />
               <div class="post-id">
                 {{post_id}}
               </div>
               <div class="timeago" timeline-timeago="{{post_time}}"></div>
-              <div class="post-message-container">
-                {{post_message}}
-              </div>
-              <div id="rest"></div>
+              <div class="post-message-container" id="message"></div>
+              <div class="row" id="rest"></div>
             </div>
           </div>
         </div>'
@@ -67,7 +65,8 @@ angular.module("timeline.directive", [])
         scope.post_id = scope.post.id
         scope.post_time = scope.post.created_at
         scope.$watch 'post.msg', (value) ->
-          scope.post_message = scope.post.msg
+          $(element).find('#message').first()
+            .append $.parseHTML(scope.post.msg)
         replyElement = $(element).find('#rest')
         scope.$watch('post.replies', (v) ->
           replyElement.empty()
@@ -76,8 +75,8 @@ angular.module("timeline.directive", [])
           while index > 0
             index--
             replyElement.append $("""
+              <hr>
               <div class="reply" id="post-#{scope.post.replies[index].id}">
-                <hr>
                 <div timeline-post="post.replies[#{index}]"></div>
               </div>
             """)

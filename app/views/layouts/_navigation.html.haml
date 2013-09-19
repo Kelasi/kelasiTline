@@ -1,15 +1,3 @@
 %ul.nav
   %li
     = link_to logo, root_path
-  - if logged_in?
-    %li.disabled
-      = link_to('Logout')
-  - else
-    %li.disabled
-      = link_to('Login')
-  - if logged_in?
-    %li.disabled
-      = link_to('Edit account')
-  - else
-    %li.disabled
-      = link_to('Sign up')
