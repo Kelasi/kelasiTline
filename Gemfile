@@ -45,7 +45,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.git', :branch => '3'
+gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass'
 gem 'angularjs-rails'
 gem 'haml-rails'
 
