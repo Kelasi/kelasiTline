@@ -14,3 +14,7 @@
     .post(ng-repeat="post in posts" id="post-{{post.id}}")
       %div(ngapp-post="post" post-class="panel radius")
 
+.row
+  .large-12.columns
+    %span.prefix(ng-click="next_week_posts()" ngapp-notify="{{next_week_loading}}" delay="1000")
+

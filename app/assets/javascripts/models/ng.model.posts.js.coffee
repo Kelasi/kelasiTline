@@ -5,6 +5,8 @@ class Posts
 
   data: []
 
+  paginate_week: 0
+
   load: () ->
     r = @q.defer()
     posts_cache = store.get 'posts'
@@ -15,6 +17,14 @@ class Posts
       @data.length = 0
       @append p for p in data_r
       store.set 'posts', data_r
+      r.resolve @data
+    r.promise
+
+  paginate_load: () ->
+    r = @q.defer()
+    @paginate_week += 1
+    @http.get("/posts.json?week=#{@paginate_week}").success (data_r) =>
+      @append p for p in data_r
       r.resolve @data
     r.promise
 

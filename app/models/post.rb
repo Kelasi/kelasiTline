@@ -1,3 +1,5 @@
+require 'our_date'
+
 class Post < ActiveRecord::Base
   attr_accessible :msg, :user_id, :parent_id, :dir, :status
   belongs_to :parent, class_name: "Post"
@@ -21,5 +23,12 @@ class Post < ActiveRecord::Base
     ], context
     result = pipeline.call message
     self.msg = result[:output].to_s
+  end
+
+  def self.paginate(num)
+    from_date = Date.last_thursday - 7*num
+    to_date = from_date + 7
+    to_date = Date.today + 1 if num == 0
+    self.where(created_at: from_date..to_date)
   end
 end

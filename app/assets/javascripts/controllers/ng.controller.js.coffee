@@ -8,6 +8,10 @@ ngapp.controller "resourcesCtrl",
 
       loading($scope.users = users.load())
       loading($scope.posts = posts.load())
+
+      $scope.next_week_posts = ->
+        $scope.next_week_loading = 'loading'
+        posts.paginate_load().then -> $scope.next_week_loading = ''
     ]
 
 ngapp.controller "commandCntl",

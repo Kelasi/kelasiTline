@@ -4,22 +4,16 @@ angular.module("timeline.directive", [])
   .directive('timelineNotify', ->
     {
       restrict: 'A'
-      template:
-        '<div class="alert-box alert" data-alert style="display:none">
-          <a href="javascript:location.reload()">reload</a>
-          <i class="icon-info-sign"></i>
-          <span id="notification-message"></span>
-        </div>'
-      replace: true
       scope: false
       link: (scope, element, attrs) ->
-        attrs.$observe 'timelineNotify', (value) ->
+        scope.flipload = flipload = new Flipload element[0],
+          line: 'horizontal', className: 'ngapp-flipload'
+        attrs.$observe 'ngappNotify', (value) ->
           if value? and value != ''
-            $(element).find('#notification-message').text value
             delay = parseInt attrs['delay']
-            $(element).delay(delay).slideDown()
+            flipload.load()
           else
-            $(element).stop(true, false).slideUp()
+            flipload.done()
     }
   ).directive('timelineTimeago', ['timeago', (timeago)->
     {
@@ -42,11 +36,11 @@ angular.module("timeline.directive", [])
       template:
         '<div class="post">
           <div class="col-md-2 center">
-              <img class="img-circle inline-profile-photo shadow" ng-src="{{image}}" />
+              <img class="img-circle inline-profile-photo shadow-centered" ng-src="{{image}}" />
               <div class="vertical-line"></div>
           </div>
           <div class="col-md-10">
-            <div class="col-md-12 round5 command-div shadow">
+            <div class="col-md-12 round5 command-div shadow-downward">
               <img class="my-arrow-box" src="/assets/timeline-images/arrow-box.png" />
               <div class="post-id">
                 {{post_id}}

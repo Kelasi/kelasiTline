@@ -1,7 +1,8 @@
 require "spec_helper"
+require "our_date"
 
 describe Post do
-	
+
   before do
     @post = Post.create do |p|
       p.msg = "test message"
@@ -22,14 +23,6 @@ describe Post do
 		p1 = Post.create {|q| q.msg = '1'}
 		p2 = Post.create {|q| q.msg = '2'}
 		Post.first(2).should == [p2, p1]
-	end
-
-	it "Should have recent posts" do
-		ps = []
-		30.times do |i|
-			ps << Post.create {|q| q.msg = i.to_s}
-		end
-		Post.recent_posts(10).should == ps.last(10).reverse
 	end
 
   it "Should have post.parent_id==nil as recent_posts" do
@@ -68,6 +61,38 @@ describe Post do
         subject.message = "This _is_ **text**"
         expect(subject.msg).to eq '<p>This <em>is</em> <strong>text</strong></p>'
       end
+    end
+  end
+
+  context "paginate" do
+
+    before do
+      14.times do |i|
+        Post.create!{|p| p.msg="post no #{i}"; p.created_at= i.days.ago}
+      end
+    end
+
+    it "when argument is 0, should include today posts as well" do
+      p = Post.paginate(0).map{|p| p.created_at.to_date}
+      expect(p).to include Date.today
+    end
+
+    it "when argument is 0, should not return posts before nearest Thursday" do
+      p = Post.paginate(0)
+      q = p.map do |p|
+        p.created_at > Date.last_thursday
+      end
+      expect(q).not_to include false
+    end
+
+    it "when argument is 1, should only return posts for last week" do
+      p = Post.paginate(1)
+      from_date = Date.last_thursday - 7
+      to_date = from_date + 7
+      q = p.map do |p|
+        (from_date..to_date).include? p.created_at.to_date
+      end
+      expect(q).not_to include false
     end
   end
 end

@@ -6,11 +6,11 @@
 
 .row.top-bottom-21px-gap
 	.col-md-2
-		.img-circle.inline-profile-photo.center.shadow
+		.img-circle.inline-profile-photo.center.shadow-centered
 			%span
 				>_
 	.col-md-10
-		.round5.command-bar.shadow
+		.round5.command-bar.shadow-downward
 			%img.my-arrow-box(src="/assets/timeline-images/arrow-box.png")
 			.row(ng-controller="commandCntl")
 				%form.navbar-form(ng-submit="runCommand()")
@@ -25,3 +25,8 @@
 .row(ng-controller="resourcesCtrl")
 	%div(ng-repeat="post in posts" id="post-{{post.id}}")
 		%div(timeline-post="post")
+
+	.center
+		%a.next_week_btn(ng-click="next_week_posts()"
+                		 ngapp-notify="{{next_week_loading}}"delay="1000"
+                		 ) Next week posts ...

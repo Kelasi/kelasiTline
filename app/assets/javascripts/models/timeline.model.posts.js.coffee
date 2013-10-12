@@ -4,11 +4,20 @@ class Posts
   constructor: (@q, @http, @users) ->
 
   data: []
+  paginate_week: 0
 
   load: () ->
     r = @q.defer()
     @http.get("/posts.json").success (data_r) =>
       @data.length = 0
+      @append p for p in data_r
+      r.resolve @data
+    r.promise
+
+  paginate_load: () ->
+    r = @q.defer()
+    @paginate_week += 1
+    @http.get("/posts.json?week=#{@paginate_week}").success (data_r) =>
       @append p for p in data_r
       r.resolve @data
     r.promise

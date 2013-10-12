@@ -29,6 +29,21 @@ describe PostsController do
         get 'index'
         expect(assigns :user).to eq session['user']
       end
+
+      it "should use paginate for indexing" do
+        p = [double(:post)]
+        p.stub(:includes).and_return(p)
+        Post.stub(:paginate).with(0).and_return(p)
+        get 'index'
+        expect(assigns(:posts)).to eq p
+      end
+
+      it "should get a param for paginate" do
+        p = [double(:post)]
+        p.stub(:includes).and_return(p)
+        Post.stub(:paginate).with(1).and_return(p)
+        get 'index', week: 1
+      end
 		end
 
     context 'create action' do
