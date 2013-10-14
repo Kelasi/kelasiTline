@@ -77,20 +77,4 @@ angular.module("timeline.directive", [])
           $compile(replyElement.contents())(scope)
         , true)
     }
-  ]).directive('sidebar',[->
-    {
-      restrict: 'E'
-      template:
-        '<div class="sidebar">
-          <div class="scrollbar-x"></div>
-          <div class="scrollbar-y"></div>
-          <div ng-transclude></div>
-        </div>'
-      replace: true
-      scope: false
-      transclude: true
-      link: (scope, element, attrs) ->
-        $(element).perfectScrollbar()
-    }
   ])
-

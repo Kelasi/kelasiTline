@@ -17,18 +17,14 @@
       = yield :head
 
   %body
-    %header.navbar.navbar-fixed-top.navbar-inverse
-      %nav
-        = render 'layouts/navigation'
-    %sidebar(ng-cloak)
-      = render 'timeline_left_sidebar'
-
     #main{:role => "main"}
       = render 'layouts/messages'
       .row
-        .col-md-8
+        .col-md-3
+          = render 'timeline_left_sidebar'
+        .col-md-6
           = yield
-        .col-md-4
+        .col-md-3
           = render 'timeline_right_sidebar'
 
     - if content_for? :script

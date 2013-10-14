@@ -68,7 +68,13 @@ describe Post do
 
     before do
       14.times do |i|
-        Post.create!{|p| p.msg="post no #{i}"; p.created_at= i.days.ago}
+        2.times do |j|
+          Post.create! do |p| 
+            p.msg = "post no #{i}"
+            p.created_at = i.days.ago
+            p.parent_id = j
+          end
+        end
       end
     end
 
@@ -91,6 +97,14 @@ describe Post do
       to_date = from_date + 7
       q = p.map do |p|
         (from_date..to_date).include? p.created_at.to_date
+      end
+      expect(q).not_to include false
+    end
+
+    it "should only return posts with parent_id 0 or nil" do
+      p = Post.paginate(0)
+      q = p.map do |p|
+        p.parent_id == 0
       end
       expect(q).not_to include false
     end

@@ -6,71 +6,7 @@ html, body {
 }
 
 #main {
-	margin-left: 265px;
-
 	& > .row {
 		margin-right: 0;
 	}
-}
-
-header .nav a {
-	&:hover {
-		background-color: #222;
-	}
-
-	.logo {
-		margin: -14px 77px -14px 50px;
-	}
-}
-
-.sidebar {
-	position: fixed;
-	padding: 60px 10px 20px 6px;
-	width:230px;
-	height: 100%;
-	left: 0;
-	top: 0;
-	color: #762d43;
-	overflow: hidden;
-	background-color: #222;
-}
-
-@media (max-width: 1200px) {
-	.sidebar {
-		width: 190px;
-	}
-	#main {
-		margin-left: 230px;
-	}
-}
-
-@media (max-width: 979px) {
-	header.navbar{
-		position: relative;
-	}
-	.sidebar {
-		width: 147px;
-	}
-	#main {
-		margin-left: 187px;
-	}
-}
-
-@media (max-width: 768px) {
-	.sidebar {
-		width: 0px;
-	}
-	#main {
-		margin-left: 40px;
-	}
-}
-
-.scrollbar-x {
-	position: absolute;
-	bottom: 5px;
-}
-
-.scrollbar-y {
-	position: absolute;
-	right: 5px;
 }

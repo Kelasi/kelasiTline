@@ -29,6 +29,6 @@ class Post < ActiveRecord::Base
     from_date = Date.last_thursday - 7*num
     to_date = from_date + 7
     to_date = Date.today + 1 if num == 0
-    self.where(created_at: from_date..to_date)
+    self.where(created_at: from_date..to_date, parent_id: [0, nil])
   end
 end
