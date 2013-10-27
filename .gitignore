@@ -23,3 +23,5 @@ bin/
 .ruby-version
 
 TODO
+
+.env

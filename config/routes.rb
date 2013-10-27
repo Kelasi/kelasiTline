@@ -3,6 +3,8 @@ KelasiTline::Application.routes.draw do
   resources :posts
   resources :users
 
+  get 'github(.:format)', to: 'githubs#index'
+
   get 'ng', to: 'pages#ng'
   get 'home', to: 'pages#ng_home'
   get 'login', to: 'pages#login', as: :login

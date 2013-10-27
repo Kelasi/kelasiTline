@@ -49,6 +49,8 @@ gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass'
 gem "angularjs-rails", "~> 1.2.0.rc2"
 gem 'haml-rails'
 
+gem "octokit", "~> 2.0"
+
 # For markdown and Autolinking and emojis :D
 gem 'html-pipeline'
 

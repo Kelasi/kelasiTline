@@ -228,3 +228,29 @@ form {
 		margin: 4px 0 3px 0;
 	}
 }
+
+// Right-side-bar
+.issues {
+
+	& header {
+		margin-top: 60px;
+		text-align: center;
+	}
+
+	& .title {
+		font-size: 13px;
+		font-weight: bold;
+	}
+
+	& .body {
+		font-size: 12px;
+		font-weight: 100;
+	}
+
+	& hr {
+		border-top: 1px solid #aaa;
+		border-bottom: 1px solid #e7e7e7;
+		margin-bottom: 18px;
+		margin-top: 2px;
+	}
+}
