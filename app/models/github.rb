@@ -25,5 +25,10 @@ class Github
 				client.issues 'kelasi/kelasi', per_page: 30
 			end
 		end
+
+		def create_issue(repo, title, body, user)
+			client = self.client(user)
+			client.create_issue(repo, title, body)
+		end
 	end
 end

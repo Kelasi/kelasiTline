@@ -31,4 +31,14 @@ describe Github do
 			expect(response).to eq ENV['AMIR_GITHUB_TOKEN']
 		end
 	end
+
+	context "create_issue" do
+		it "should create an issue" do
+			repo  = 'saeedSarpas/kelasiTlineTDDhelper'
+			title = Time.now
+			body  = Time.now
+			response = Github.create_issue(repo, title, body, 'Saeed')
+			response.detect { |res| res[:id] }
+		end
+	end
 end
