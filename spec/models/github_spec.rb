@@ -24,4 +24,11 @@ describe Github do
 			expect(Github.login?).to be_true
 		end
 	end
+
+	context "token" do
+		it "should return appropriate token based on require user" do
+			response = Github.token('Amir')
+			expect(response).to eq ENV['AMIR_GITHUB_TOKEN']
+		end
+	end
 end

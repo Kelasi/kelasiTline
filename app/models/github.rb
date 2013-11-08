@@ -1,8 +1,12 @@
 class Github
 	class << self
 
-		def client
-			@@client ||= Octokit::Client.new access_token: ENV['GITHUB_TOKEN']
+		def client(user='Saeed')
+			@@client ||= Octokit::Client.new access_token: token(user)
+		end
+
+		def token(user)
+			ENV["#{user.upcase}_GITHUB_TOKEN"]
 		end
 
 		alias :login :client
