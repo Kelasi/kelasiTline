@@ -10,6 +10,9 @@ class kelasiTlineIssues
 			r.resolve @data
 		r.promise
 
+	concatenate: (issue) =>
+	    @data['unshift'] issue
+
 timeline_model.factory 'kelasiTlineIssues',
 	['$q', '$http', ($q, $http)->
 		new kelasiTlineIssues $q, $http
@@ -27,6 +30,9 @@ class kelasiIssues
 			@data = data_r
 			r.resolve @data
 		r.promise
+
+	concatenate: (issue) =>
+	    @data['unshift'] issue
 
 timeline_model.factory 'kelasiIssues',
 	['$q', '$http', ($q, $http)->

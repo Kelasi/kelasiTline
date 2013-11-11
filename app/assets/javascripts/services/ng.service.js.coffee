@@ -123,6 +123,32 @@ class Command
               @posts.data[post_index].replies.splice(reply_index, 1)
             else
               @posts.data.splice post_index, 1
+
+      when 'issue'
+        user = @rootScope.loggedInUser
+        unless user?
+          result.reject 'You should login first'
+          return result.promise
+        pointer1 = parameter.indexOf('<<')
+        repo = parameter.substring(0, pointer1)
+        if (repo == NaN || repo == '')
+          result.reject 'You should pass a repository name here.'
+          return result.promise
+        pointer2 = parameter.indexOf('>>')
+        title = parameter.substring(pointer1 + 2, pointer2)
+        if (title == NaN || title == '')
+          result.reject 'You should pass a title here.'
+          return result.promise
+        body = parameter.substring(pointer2 + 2)
+        switch repo.replace(/\s+/, "")
+          when 'kelasi'
+            repo = "kelasi/kelasi"
+          when 'tline'
+            repo = "kelasi/kelasitline"
+          else
+            result.reject 'you should pass a valid repository name'
+            return result.promise
+        @http.post("/github", {repo: repo, title: title, body: body})
       else
         result.reject 'Command not found'
         return result.promise

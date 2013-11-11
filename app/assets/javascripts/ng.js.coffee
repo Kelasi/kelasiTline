@@ -2,7 +2,7 @@
 #= require 'store'
 #= require_self
 #= require 'flipload'
-#= require 'jquery.sticky-kit'
+#= require 'jquery.sticky'
 #= require 'services/ng.service'
 #= require 'filters/ng.filter'
 #= require 'directives/ng.directive'

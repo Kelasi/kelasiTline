@@ -1,5 +1,4 @@
 
-
 angular.module("ngapp.directive", [])
   .directive('ngappNotify', ->
     {
@@ -26,7 +25,11 @@ angular.module("ngapp.directive", [])
               do_bind()
             , 300)
             return
-          $(element).css('z-index', 1000).stick_in_parent()
+          width = element[0].offsetWidth
+          element.css({zIndex: 1000, width: width}).sticky()
+          $(window).resize ->
+            item = element.parent()[0].offsetWidth
+            element.width item
         do_bind()
     }
   ]).directive('ngappTimeago', ['timeago', (timeago)->

@@ -41,7 +41,7 @@ ngapp.controller "commandCntl",
 
       if $event.keyCode == 40
         if history.length > history_last >= 0
-          history_last = 1
+          history_last += 1
           $scope.command = history[history_last]
  
     $scope.runCommand = ->
@@ -51,5 +51,5 @@ ngapp.controller "commandCntl",
       loading(command.run(corr_command,parameter)).then ->
         history.push($scope.command)
         history_last = history.length
-        $scope.command = ''  
+        $scope.command = ''
   ]
