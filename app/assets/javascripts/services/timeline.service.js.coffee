@@ -4,7 +4,7 @@ timeline_service = angular.module("timeline.service", [])
 
 
 class Command
-  constructor: (@timeout, @http, @q, @rootScope, @posts, @users) ->
+  constructor: (@timeout, @http, @q, @rootScope, @posts, @users, @kelasiIssues, @kelasiTlineIssues) ->
 
   run: (commandd, parameter) ->
 
@@ -123,14 +123,46 @@ class Command
               @posts.data[post_index].replies.splice(reply_index, 1)
             else
               @posts.data.splice post_index, 1
+
+      when 'issue'
+        user = @rootScope.loggedInUser
+        unless user?
+          result.reject 'You should login first'
+          return result.promise
+        pointer1 = parameter.indexOf('<<')
+        abr_repo = parameter.substring(0, pointer1)
+        if (abr_repo == NaN || abr_repo == '')
+          result.reject 'You should pass a repository name here.'
+          return result.promise
+        pointer2 = parameter.indexOf('>>')
+        title = parameter.substring(pointer1 + 2, pointer2)
+        if (title == NaN || title == '')
+          result.reject 'You should pass a title here.'
+          return result.promise
+        body = parameter.substring(pointer2 + 2)
+        switch abr_repo.replace(/\s+/, "")
+          when 'kelasi'
+            repo = "kelasi/kelasi"
+          when 'tline'
+            repo = "kelasi/kelasitline"
+          else
+            result.reject 'you should pass a valid repository name'
+            return result.promise
+        @http.post("/github", {repo: repo, title: title, body: body})
+          .success (issue) =>
+            switch abr_repo.replace(/\s+/, "")
+              when 'kelasi'
+                @kelasiIssues.concatenate(issue)
+              when 'tline'
+                @kelasiTlineIssues.concatenate(issue)
       else
         result.reject 'Command not found'
         return result.promise
 
 timeline_service.factory("command",
-  ['$timeout', '$http', '$q', '$rootScope', 'posts', 'users',
-  ($timeout, $http, $q, $rootScope, posts, users) ->
-    new Command $timeout, $http, $q, $rootScope, posts, users
+  ['$timeout', '$http', '$q', '$rootScope', 'posts', 'users', 'kelasiIssues', 'kelasiTlineIssues'
+  ($timeout, $http, $q, $rootScope, posts, users, kelasiIssues, kelasiTlineIssues) ->
+    new Command $timeout, $http, $q, $rootScope, posts, users, kelasiIssues, kelasiTlineIssues
   ]
 )
 
