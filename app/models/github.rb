@@ -23,6 +23,8 @@ class Github
 				client.issues 'kelasi/kelasiTline', per_page: 30
 			elsif repo == 'kelasi'
 				client.issues 'kelasi/kelasi', per_page: 30
+			elsif repo == 'saeedSarpas/kelasiTlineTDDhelper'
+				client.issues 'saeedSarpas/kelasiTlineTDDhelper', per_page: 2
 			end
 		end
 
