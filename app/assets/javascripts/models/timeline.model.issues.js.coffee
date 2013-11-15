@@ -5,7 +5,7 @@ class kelasiTlineIssues
 
 	issues: ->
 		r = @q.defer()
-		@http.get("github.json?repo=kelasiTline").success (data_r) =>
+		@http.get("/repo/Kelasi/kelasiTline/issues.json").success (data_r) =>
 			@data = data_r
 			r.resolve @data
 		r.promise
@@ -23,7 +23,7 @@ class kelasiIssues
 
 	issues: ->
 		r = @q.defer()
-		@http.get("github.json?repo=kelasi").success (data_r) =>
+		@http.get("/repo/Kelasi/kelasi/issues.json").success (data_r) =>
 			@data = data_r
 			r.resolve @data
 		r.promise
