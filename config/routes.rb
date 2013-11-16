@@ -1,9 +1,14 @@
+require 'constraints/acceptable_repos'
+
 KelasiTline::Application.routes.draw do
 
   resources :posts
   resources :users
 
-  get 'github(.:format)', to: 'githubs#index'
+  scope 'repo/:org/:repo', constraints: AcceptableRepos do
+    resources :issues, except: [:new, :show, :edit]
+    resources :milestones, only: [:index, :create]
+  end
 
   get 'ng', to: 'pages#ng'
   get 'home', to: 'pages#ng_home'

@@ -54,12 +54,3 @@ timeline.controller "commandCntl",
         $scope.command = ''
   ]
 
-timeline.controller "IssuesCntl",
-  ['$scope', '$q', 'kelasiIssues', 'kelasiTlineIssues'
-  ($scope, $q, kelasiIssues, kelasiTlineIssues) ->
-    $scope.issues_loaded = false
-    $scope.kelasiTline_issues = kelasiTline_issues = kelasiTlineIssues.issues()
-    $scope.kelasi_issues = kelasi_issues = kelasiIssues.issues()
-    $q.all([kelasiTline_issues, kelasi_issues]).then ->
-      $scope.issues_loaded = true
-  ]

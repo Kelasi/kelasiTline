@@ -1,21 +1,2 @@
 %section
-	.col-md-12(ng-controller='IssuesCntl')
-		.issues(ng-cloak ng-show="issues_loaded")
-			%header
-				%h4 kelasi Issues
-				%hr
-			%div(ng-repeat='issues in kelasi_issues' ng-cloak)
-				.title
-					{{issues.title}}
-				.body
-					{{issues.body}}
-				%hr
-			%header
-				%h4 kelasiTline Issues
-				%hr
-			%div(ng-repeat='issues in kelasiTline_issues')
-				.title
-					{{issues.title}}
-				.body
-					{{issues.body}}
-				%hr
+	%timelineapp-issues

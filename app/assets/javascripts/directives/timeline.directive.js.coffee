@@ -15,7 +15,51 @@ angular.module("timeline.directive", [])
           else
             flipload.done()
     }
-  ).directive('timelineTimeago', ['timeago', (timeago)->
+  ).directive('timelineappIssues', [
+    '$q', 'kelasiIssues', 'kelasiTlineIssues'
+    ($q, kelasiIssues, kelasiTlineIssues) ->
+      {
+        restrict: 'E'
+        template:
+          '<div class="col-md-12" timelineapp-Stick>
+            <div class="issues" ng-cloak ng-show="issues_loaded">
+              <header>
+                <h4>kelasi Issues</h4>
+                <hr />
+              </header>
+              <div ng-repeat="issues in kelasi_issues" ng-cloak>
+                <div class="title">
+                  {{issues.title}}
+                </div>
+                <div class="body">
+                  {{issues.body}}
+                </div>
+                <hr />
+              </div>
+              <header>
+                <h4>kelasiTline Issues</h4>
+                <hr />
+              </header>
+              <div ng-repeat="issues in kelasiTline_issues">
+                <div class="title">
+                  {{issues.title}}
+                </div>
+                <div class="body">
+                  {{issues.body}}
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>'
+        replace: true
+        link: (scope, element, attrs) ->
+          scope.issues_loaded = false
+          scope.kelasiTline_issues = kelasiTline_issues = kelasiTlineIssues.issues()
+          scope.kelasi_issues = kelasi_issues = kelasiIssues.issues()
+          $q.all([kelasiTline_issues, kelasi_issues]).then ->
+            scope.issues_loaded = true
+      }
+  ]).directive('timelineTimeago', ['timeago', (timeago)->
     {
       restrict: 'A'
       template: '<time></time>'
