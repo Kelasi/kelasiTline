@@ -25,4 +25,10 @@ describe User do
 			User.find_by_name("Pouria").id.should == 5
 		end
 	end
+
+	context 'github' do
+		it 'should return an Octokit client' do
+			expect(User.first.github).to be_instance_of Octokit::Client
+		end
+	end
 end
